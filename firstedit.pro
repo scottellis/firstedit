@@ -19,8 +19,10 @@ OBJECTS_DIR = Objects
 UI_DIR = GeneratedFiles
 RCC_DIR = GeneratedFiles
 
-HEADERS += firstedit.h
+HEADERS += firstedit.h \
+    battery.h
 
-SOURCES += main.cpp firstedit.cpp
+SOURCES += main.cpp firstedit.cpp \
+    battery.cpp
 
 FORMS += firstedit.ui

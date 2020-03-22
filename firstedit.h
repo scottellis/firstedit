@@ -6,8 +6,11 @@
 #include <qcombobox.h>
 #include <qtextedit.h>
 #include <qpushbutton.h>
+#include <qlabel.h>
+#include <qprogressbar.h>
 
 #include "ui_firstedit.h"
+#include "battery.h"
 
 class FirstEdit : public QMainWindow
 {
@@ -15,14 +18,18 @@ class FirstEdit : public QMainWindow
 
 public:
     FirstEdit(QWidget *parent = 0);
+    ~FirstEdit();
+
+public slots:
+    void zoomIn();
+    void zoomOut();
+    void batteryStatusChange(QString status);
+    void batteryLevelChange(int level);
+    void startBatteryThread();
 
 protected:
     void closeEvent(QCloseEvent *);
     void keyPressEvent(QKeyEvent *);
-
-protected slots:
-    void zoomIn();
-    void zoomOut();
 
 private:
     void layoutWindow();
@@ -39,6 +46,9 @@ private:
     int m_fontSize;
     QTextEdit *m_edit;
     QPushButton *m_quitBtn;
+    QLabel *m_batteryStatus;
+    QProgressBar *m_batteryLevel;
+    BatteryThread *m_batteryThread;
 };
 
 #endif // FIRSTEDIT_H

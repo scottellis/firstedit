@@ -5,6 +5,7 @@
 #include <qfile.h>
 #include <qtextstream.h>
 #include <qevent.h>
+#include <qtimer.h>
 
 #include "firstedit.h"
 
@@ -14,6 +15,8 @@
 FirstEdit::FirstEdit(QWidget *parent)
     : QMainWindow(parent)
 {
+    m_batteryThread = nullptr;
+
     ui.setupUi(this);
 
     layoutWindow();
@@ -23,6 +26,30 @@ FirstEdit::FirstEdit(QWidget *parent)
     restoreWindowState();
 
     loadCache();
+
+    QTimer::singleShot(2000, this, SLOT(startBatteryThread()));
+}
+
+FirstEdit::~FirstEdit()
+{
+    if (m_batteryThread)
+        delete m_batteryThread;
+}
+
+void FirstEdit::startBatteryThread()
+{
+    m_batteryThread = new BatteryThread(10, this);
+    m_batteryThread->start();
+}
+
+void FirstEdit::batteryStatusChange(QString status)
+{
+    m_batteryStatus->setText(status);
+}
+
+void FirstEdit::batteryLevelChange(int level)
+{
+    m_batteryLevel->setValue(level);
 }
 
 void FirstEdit::keyPressEvent(QKeyEvent *event)
@@ -80,15 +107,23 @@ void FirstEdit::layoutWindow()
 {
     m_edit = new QTextEdit;
     m_quitBtn = new QPushButton("&Quit");
+    m_batteryStatus = new QLabel("Unknown");
+    m_batteryLevel = new QProgressBar();
+    m_batteryLevel->setRange(0, 100);
+    m_batteryLevel->setValue(0);
 
     QVBoxLayout *vLayout = new QVBoxLayout;
 
     vLayout->addWidget(m_edit);
 
     QHBoxLayout *hLayout = new QHBoxLayout;
-    hLayout->addStretch();
     hLayout->addWidget(m_quitBtn);
     hLayout->addStretch();
+
+    QFormLayout *formLayout = new QFormLayout;
+    formLayout->addRow(m_batteryStatus, m_batteryLevel);
+    hLayout->addLayout(formLayout);
+
     vLayout->addLayout(hLayout);
 
     centralWidget()->setLayout(vLayout);
