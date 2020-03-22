@@ -6,7 +6,6 @@
 #include <qcombobox.h>
 #include <qtextedit.h>
 #include <qpushbutton.h>
-#include <qshortcut.h>
 
 #include "ui_firstedit.h"
 
@@ -19,6 +18,7 @@ public:
 
 protected:
     void closeEvent(QCloseEvent *);
+    void keyPressEvent(QKeyEvent *);
 
 protected slots:
     void zoomIn();
@@ -39,9 +39,6 @@ private:
     int m_fontSize;
     QTextEdit *m_edit;
     QPushButton *m_quitBtn;
-    QShortcut *m_quit;
-    QShortcut *m_zoomIn;
-    QShortcut *m_zoomOut;
 };
 
 #endif // FIRSTEDIT_H
