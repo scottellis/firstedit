@@ -3,6 +3,8 @@
 
 #include "battery.h"
 
+// #define WORKSTATION 1
+
 BatteryThread::BatteryThread(int updateInterval, QObject *parent)
     : QThread(parent)
 {
@@ -19,27 +21,26 @@ BatteryThread::BatteryThread(int updateInterval, QObject *parent)
 
 BatteryThread::~BatteryThread()
 {
-    m_mutex.lock();
     m_abort = true;
-    m_mutex.unlock();
 
     wait();
 }
 
 QString BatteryThread::batteryStatus()
 {
-    QMutexLocker lock(&m_mutex);
     return m_batteryStatus;
 }
 
 int BatteryThread::batteryLevel()
 {
-    QMutexLocker lock(&m_mutex);
     return m_batteryLevel;
 }
 
 QString BatteryThread::readStatus()
 {
+#ifdef WORKSTATION
+    return "Discharging";
+#else
     QFile file(m_sysPath + "/status");
 
     if (!file.open(QIODevice::ReadOnly | QIODevice::Text))
@@ -50,10 +51,14 @@ QString BatteryThread::readStatus()
     file.close();
 
     return txt;
+#endif
 }
 
 int BatteryThread::readCapacity()
 {
+#ifdef WORKSTATION
+    return 75;
+#else
     QFile file(m_sysPath + "/capacity");
 
     if (!file.open(QIODevice::ReadOnly | QIODevice::Text))
@@ -70,6 +75,7 @@ int BatteryThread::readCapacity()
         return capacity;
     else
         return -1;
+#endif
 }
 
 void BatteryThread::run()
@@ -77,7 +83,7 @@ void BatteryThread::run()
     while (!m_abort) {
         QString status = readStatus();
 
-        if (status == m_batteryStatus) {
+        if (status != m_batteryStatus) {
             m_batteryStatus = status;
             emit batteryStatusChange(m_batteryStatus);
         }

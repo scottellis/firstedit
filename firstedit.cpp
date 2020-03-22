@@ -39,6 +39,10 @@ FirstEdit::~FirstEdit()
 void FirstEdit::startBatteryThread()
 {
     m_batteryThread = new BatteryThread(10, this);
+
+    connect(m_batteryThread, SIGNAL(batteryStatusChange(QString)), SLOT(batteryStatusChange(QString)));
+    connect(m_batteryThread, SIGNAL(batteryLevelChange(int)), SLOT(batteryLevelChange(int)));
+
     m_batteryThread->start();
 }
 

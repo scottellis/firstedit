@@ -2,7 +2,6 @@
 #define BATTERY_H
 
 #include <qthread.h>
-#include <qmutex.h>
 
 #define DEFAULT_UPDATE_INTERVAL 15
 
@@ -28,7 +27,6 @@ private:
     QString readStatus();
     int readCapacity();
 
-    QMutex m_mutex;
     QString m_sysPath;
     bool m_abort;
     int m_updateInterval;

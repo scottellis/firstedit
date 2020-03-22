@@ -23,8 +23,8 @@ public:
 public slots:
     void zoomIn();
     void zoomOut();
-    void batteryStatusChange(QString status);
-    void batteryLevelChange(int level);
+    void batteryStatusChange(QString);
+    void batteryLevelChange(int);
     void startBatteryThread();
 
 protected:
