@@ -5,12 +5,11 @@
 #include <qfile.h>
 #include <qtextstream.h>
 #include <qevent.h>
-#include <qdebug.h>
 
 #include "firstedit.h"
 
 #define MIN_FONTSIZE 8
-#define MAX_FONTSIZE 96
+#define MAX_FONTSIZE 120
 
 FirstEdit::FirstEdit(QWidget *parent)
     : QMainWindow(parent)
@@ -56,8 +55,6 @@ void FirstEdit::keyPressEvent(QKeyEvent *event)
 
 void FirstEdit::zoomIn()
 {
-    qDebug() << "ZoomIn";
-
     if (m_fontSize < MAX_FONTSIZE) {
         m_fontSize += 4;
         setFontSize(m_fontSize);
@@ -66,8 +63,6 @@ void FirstEdit::zoomIn()
 
 void FirstEdit::zoomOut()
 {
-    qDebug() << "ZoomOut";
-
     if (m_fontSize > MIN_FONTSIZE) {
         m_fontSize -= 4;
         setFontSize(m_fontSize);
