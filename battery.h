@@ -3,7 +3,7 @@
 
 #include <qthread.h>
 
-#define DEFAULT_UPDATE_INTERVAL 15
+#define DEFAULT_UPDATE_INTERVAL 5
 
 class BatteryThread : public QThread
 {
