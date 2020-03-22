@@ -4,6 +4,7 @@
 #include <qformlayout.h>
 #include <qfile.h>
 #include <qtextstream.h>
+#include <qdebug.h>
 
 #include "firstedit.h"
 
@@ -20,12 +21,15 @@ FirstEdit::FirstEdit(QWidget *parent)
     connect(m_quitBtn, SIGNAL(pressed()), SLOT(close()));
 
     m_quit = new QShortcut(QKeySequence::Quit, this);
+    m_quit->setContext(Qt::ApplicationShortcut);
     connect(m_quit, SIGNAL(activated()), SLOT(close()));
 
     m_zoomIn = new QShortcut(QKeySequence::ZoomIn, this);
+    m_zoomIn->setContext(Qt::ApplicationShortcut);
     connect(m_zoomIn, SIGNAL(activated()), SLOT(zoomIn()));
 
     m_zoomOut = new QShortcut(QKeySequence::ZoomOut, this);
+    m_zoomOut->setContext(Qt::ApplicationShortcut);
     connect(m_zoomOut, SIGNAL(activated()), SLOT(zoomOut()));
 
     restoreWindowState();
@@ -35,6 +39,8 @@ FirstEdit::FirstEdit(QWidget *parent)
 
 void FirstEdit::zoomIn()
 {
+    qDebug() << "ZoomIn";
+
     if (m_fontSize < MAX_FONTSIZE) {
         m_fontSize += 4;
         setFontSize(m_fontSize);
@@ -43,6 +49,8 @@ void FirstEdit::zoomIn()
 
 void FirstEdit::zoomOut()
 {
+    qDebug() << "ZoomOut";
+
     if (m_fontSize > MIN_FONTSIZE) {
         m_fontSize -= 4;
         setFontSize(m_fontSize);
