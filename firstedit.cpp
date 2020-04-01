@@ -84,6 +84,20 @@ void FirstEdit::keyPressEvent(QKeyEvent *event)
     }
 }
 
+void FirstEdit::keyReleaseEvent(QKeyEvent *event)
+{
+    if (event->key() == Qt::Key_CapsLock) {
+        if (m_capsLockStatus->text().length() == 0) {
+            m_capsLockStatus->setText("CAPS");
+        }
+        else {
+            m_capsLockStatus->setText("");
+        }
+    }
+
+    QWidget::keyReleaseEvent(event);
+}
+
 void FirstEdit::zoomIn()
 {
     if (m_fontSize < MAX_FONTSIZE) {
@@ -111,10 +125,17 @@ void FirstEdit::layoutWindow()
 {
     m_edit = new QTextEdit;
     m_quitBtn = new QPushButton("&Quit");
+
     m_batteryStatus = new QLabel("Unknown");
     m_batteryLevel = new QProgressBar();
     m_batteryLevel->setRange(0, 100);
     m_batteryLevel->setValue(0);
+
+    m_capsLockStatus = new QLabel("");
+    m_capsLockStatus->setMinimumWidth(60);
+    m_capsLockStatus->setFrameShape(QFrame::Panel);
+    m_capsLockStatus->setFrameShadow(QFrame::Sunken);
+    m_capsLockStatus->setLineWidth(2);
 
     QVBoxLayout *vLayout = new QVBoxLayout;
 
@@ -123,6 +144,9 @@ void FirstEdit::layoutWindow()
     QHBoxLayout *hLayout = new QHBoxLayout;
     hLayout->addWidget(m_quitBtn);
     hLayout->addStretch();
+
+    hLayout->addWidget(m_capsLockStatus);
+    hLayout->addSpacing(20);
 
     QFormLayout *formLayout = new QFormLayout;
     formLayout->addRow(m_batteryStatus, m_batteryLevel);

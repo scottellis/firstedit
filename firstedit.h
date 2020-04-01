@@ -30,6 +30,7 @@ public slots:
 protected:
     void closeEvent(QCloseEvent *);
     void keyPressEvent(QKeyEvent *);
+    void keyReleaseEvent(QKeyEvent *);
 
 private:
     void layoutWindow();
@@ -46,6 +47,7 @@ private:
     int m_fontSize;
     QTextEdit *m_edit;
     QPushButton *m_quitBtn;
+    QLabel *m_capsLockStatus;
     QLabel *m_batteryStatus;
     QProgressBar *m_batteryLevel;
     BatteryThread *m_batteryThread;
