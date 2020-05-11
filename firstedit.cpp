@@ -9,8 +9,8 @@
 
 #include "firstedit.h"
 
-#define MIN_FONTSIZE 8
-#define MAX_FONTSIZE 120
+#define MIN_FONTSIZE 2
+#define MAX_FONTSIZE 240
 
 FirstEdit::FirstEdit(QWidget *parent)
     : QMainWindow(parent)
